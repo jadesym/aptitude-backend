@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  # Duplicating this from the main docker-compose.yml
+  # file since `extends` is not yet supported in docker-compose
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: app
+    environment:
+      NODE_ENV: development
+    init: true
+    ports:
+      - '3000:3000'
+  test-e2e:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: test-e2e
+    depends_on:
+      - app
+    links:
+      - app
+  test-unit:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: test-unit

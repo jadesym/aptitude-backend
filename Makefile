@@ -38,6 +38,10 @@ clean:
 deploy: build
 	docker-compose --file $(DOCKER_COMPOSE_MAIN_FILE_NAME) up --detach
 
+## deploy-attach   | Deploys the main service
+deploy-attach: build
+	docker-compose --file $(DOCKER_COMPOSE_MAIN_FILE_NAME) up
+
 ## test-e2e        | Runs the end to end tests
 test-e2e: build-test
 	# Remove the curl against the localhost PORT after we migrate this to e2e-tests

@@ -6,3 +6,7 @@ dist
 
 # Ignore code coverage directories
 coverage
+
+# local .env* files
+.env.local
+.env.*.local

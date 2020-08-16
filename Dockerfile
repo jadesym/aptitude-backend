@@ -112,6 +112,10 @@ CMD ["npm", "run", "test:unit"]
 #----------------------------------------------------------------------
 FROM base as app
 
+COPY \
+  ./env \
+  $APP_DIR/env
+
 COPY --from=builder $APP_DIR/dist $APP_DIR/dist
 
 # Start the server

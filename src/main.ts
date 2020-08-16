@@ -1,5 +1,14 @@
+import dotenvFlow from 'dotenv-flow';
 import express from 'express';
 import initializeRoutes from './routes/routes';
+
+// Configure the environment variables
+dotenvFlow.config({
+  node_env: process.env.NODE_ENV,
+  default_node_env: 'development',
+  encoding: 'utf8',
+  path: './env',
+});
 
 const app = express();
 

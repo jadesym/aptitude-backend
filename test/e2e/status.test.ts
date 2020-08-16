@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const URI_SCHEME = 'http';
-const PORT = 3000;
-const HOST_NAME = 'localhost';
+const PORT = 4000;
+const HOST_NAME = 'app';
 
 test('Server Status', async () => {
   const {

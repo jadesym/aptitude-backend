@@ -19,6 +19,9 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get install -qq -y \
         less \
+        # Dependencies necessary for wait-for
+        netcat \
+        wget \
     && apt-get -qq -y autoclean
 
 #----------------------------------------------------------------------
@@ -51,6 +54,10 @@ COPY \
   tsconfig.json \
   # To destination directory
   $APP_DIR
+
+# Downloading wait-for for deploying based upon dependency services
+RUN wget https://raw.githubusercontent.com/eficode/wait-for/master/wait-for
+RUN chmod u+rwx $APP_DIR/wait-for
 
 # Install dependencies from package lock (clean install)
 RUN npm ci

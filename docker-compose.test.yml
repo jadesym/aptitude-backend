@@ -1,17 +1,36 @@
 version: '3.8'
 services:
-  # Duplicating this from the main docker-compose.yml
-  # file since `extends` is not yet supported in docker-compose
+  test-mongo-db:
+    image: mongo:4.4.0-rc13
+    container_name: test-mongo-db
+    environment:
+      - MONGO_INITDB_DATABASE=test-aptitude-db
+      - MONGO_INITDB_ROOT_USERNAME=username
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    volumes:
+      - ./mongo-init/test.db.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    # Turning off volumes for the purposes of testing
+    # - ./mongo-volume:/data/db
+    ports:
+      - '27017:27017'
   app:
     build:
       context: .
       dockerfile: Dockerfile
       target: app
+    depends_on:
+      - test-mongo-db
+    links:
+      - test-mongo-db
     environment:
-      NODE_ENV: development
+      NODE_ENV: test
     init: true
     ports:
-      - '3000:3000'
+      - '4000:4000'
+    # We have to duplicate the Dockerfile command in order to
+    # have a strong dependency on other services
+    # https://docs.docker.com/compose/startup-order/
+    command: sh -c './wait-for test-mongo-db:27017 -- npm run start'
   test-e2e:
     build:
       context: .
@@ -21,6 +40,10 @@ services:
       - app
     links:
       - app
+    # We have to duplicate the Dockerfile command in order to
+    # have a strong dependency on other services
+    # https://docs.docker.com/compose/startup-order/
+    command: sh -c './wait-for app:4000 -- npm run test:e2e'
   test-unit:
     build:
       context: .

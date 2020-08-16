@@ -5,8 +5,6 @@ services:
       context: .
       dockerfile: Dockerfile
       target: app
-    environment:
-      NODE_ENV: development
     init: true
     ports:
       - '3000:3000'

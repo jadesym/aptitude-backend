@@ -1,17 +1,40 @@
-import express from 'express';
-import initializeRoutes from './routes/routes';
+import { ApolloServer, gql } from 'apollo-server';
 import { getPort } from './env';
 import { connectToDatabase } from './database/mongo/init';
 
 // Initialize connection to database
 connectToDatabase();
 
-const app = express();
+// TODO | Move this into a separate GraphQL file
+const typeDefs = gql`
+  type ServerStatus {
+    isServerAvailable: Boolean
+  }
 
-initializeRoutes(app);
+  type Query {
+    serverStatus: ServerStatus
+  }
+`;
 
-const PORT = getPort();
+// TODO | Move this into a separate resolvers file
+const resolvers = {
+  Query: {
+    serverStatus: () => {
+      return {
+        isServerAvailable: true,
+      };
+    },
+  },
+};
 
-app.listen(PORT, () => {
-  console.log(`Server started at http://localhost:${PORT}`);
-});
+const server = new ApolloServer({ typeDefs, resolvers });
+
+server
+  .listen({
+    // TODO | Set playground to only be available in dev environment
+    cors: { origin: true, credentials: true },
+    port: getPort(),
+  })
+  .then(({ url }) => {
+    console.log(`Server ready at ${url}`);
+  });

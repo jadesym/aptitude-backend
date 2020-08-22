@@ -13,6 +13,7 @@ export async function connectToDatabase(): Promise<Mongoose> {
   console.log(mongoConnectionStr);
   const connection = await mongoose.connect(mongoConnectionStr, {
     useNewUrlParser: true,
+    useUnifiedTopology: true,
   });
   console.log('Connected to MongoDB');
   return connection;

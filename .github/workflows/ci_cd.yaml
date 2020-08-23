@@ -16,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Get current docker(-compose) versions
+        run: docker --version && docker-compose --version
       - name: Run build all necessary images
         run: make build-all
       - name: Run lint

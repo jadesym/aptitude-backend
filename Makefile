@@ -12,7 +12,7 @@ DOCKER_COMPOSE_LINT_FILE_NAME = docker-compose.lint.yml
 DOCKER_COMPOSE_DEV_DB_FILE_NAME = docker-compose.dev.db.yml
 DOCKER_COMPOSE_TEST_FILE_NAME = docker-compose.test.yml
 
-.PHONY: build build-test clean deploy dev-db e2e-test rebuild rebuild-test
+.PHONY: build build-test clean deploy dev-db rebuild rebuild-test test-e2e
 
 ## build           | Builds the main service
 build:
@@ -26,7 +26,6 @@ build-all:
 		--file $(DOCKER_COMPOSE_DEV_DB_FILE_NAME) \
 		--file $(DOCKER_COMPOSE_TEST_FILE_NAME) \
 		build
-
 
 ## build-lint      | Builds the lint docker image
 build-lint:
@@ -47,11 +46,13 @@ clean:
 
 ## deploy          | Deploys the main service
 deploy: build
-	docker-compose --file $(DOCKER_COMPOSE_MAIN_FILE_NAME) up --detach
+	echo "Running deploy with environment: ${env}\n"; \
+	NODE_ENV=${env} docker-compose --file $(DOCKER_COMPOSE_MAIN_FILE_NAME) up --detach
 
 ## deploy-attach   | Deploys the main service
 deploy-attach: build
-	docker-compose --file $(DOCKER_COMPOSE_MAIN_FILE_NAME) up
+	echo "Running deploy with environment: ${env}\n"; \
+	NODE_ENV=${env} docker-compose --file $(DOCKER_COMPOSE_MAIN_FILE_NAME) up
 
 ## test-e2e        | Runs the end to end tests
 test-e2e: build-test

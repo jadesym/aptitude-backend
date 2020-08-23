@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { getMongoDBConnectionString } from '../../env';
+import { getEnv, getMongoDBConnectionString } from '../../env';
 import { Mongoose } from 'mongoose';
 
 mongoose.Promise = global.Promise;
@@ -9,18 +9,19 @@ mongoose.Promise = global.Promise;
 // mongoose.Schema.Types.String.required(true);
 
 export async function connectToDatabase(): Promise<Mongoose> {
+  console.log(`Connecting to MongoDB in env: ${getEnv()}`);
   const mongoConnectionStr = getMongoDBConnectionString();
-  console.log(mongoConnectionStr);
   const connection = await mongoose.connect(mongoConnectionStr, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
-  console.log('Connected to MongoDB');
+  console.log(`Successfully connected to MongoDB`);
   return connection;
 }
 
 export async function disconnectFromDatabase(): Promise<void> {
+  console.log(`Disconnecting from MongoDB in env: ${getEnv()}`);
   const disconnection = await mongoose.disconnect();
-  console.log('Disonnecting from MongoDB.');
+  console.log(`Successfully disconnected to MongoDB`);
   return disconnection;
 }

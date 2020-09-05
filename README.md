@@ -14,6 +14,10 @@ make dev-db
 
 npm run start:dev
 
+## Connect to the local MongoDB instance for debugging purposes
+
+mongo "mongodb://username:password@localhost:27017/dev-db"
+
 # Production Workflow
 
 ## 1A) Build the docker image

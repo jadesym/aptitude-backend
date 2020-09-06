@@ -26,7 +26,11 @@ export function getMongoDBConnectionString(): string {
     MONGO_DB_NAME,
   } = process.env;
 
-  return `${MONGO_DB_URI_SCHEME}://${MONGO_DB_USER_NAME}:${MONGO_DB_PASSWORD}@${MONGO_DB_HOST_NAME}:${MONGO_DB_PORT}/${MONGO_DB_NAME}`;
+  const mongoDBPortSuffix =
+    MONGO_DB_PORT === undefined ? '' : `:${MONGO_DB_PORT}`;
+
+  const mongoDBConnectionString = `${MONGO_DB_URI_SCHEME}://${MONGO_DB_USER_NAME}:${MONGO_DB_PASSWORD}@${MONGO_DB_HOST_NAME}${mongoDBPortSuffix}/${MONGO_DB_NAME}`;
+  return mongoDBConnectionString;
 }
 
 export function getPort(): string {

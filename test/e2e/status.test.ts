@@ -10,6 +10,7 @@ const serverStatusQuery = `
 query {
   serverStatus {
     isServerAvailable
+    mongoDBConnectionStatus
   }
 }
 `;
@@ -18,7 +19,7 @@ test('Server Status', async () => {
   const {
     data: {
       data: {
-        serverStatus: { isServerAvailable },
+        serverStatus: { isServerAvailable, mongoDBConnectionStatus },
       },
     },
     status,
@@ -32,4 +33,13 @@ test('Server Status', async () => {
 
   expect(status).toEqual(200);
   expect(isServerAvailable).toEqual(true);
+  /*
+  We currently don't check the status of the MongoDB connection
+  since we need a better mechanism for waiting until the MongoDB
+  connection has completed or been attempted. By checking that
+  this is CONNECTED in the test, we may introduce flaky tests
+  where the test passes sometimes based upon how quickly the
+  server connects to the MongoDB instance.
+   */
+  expect(mongoDBConnectionStatus).not.toBeNull();
 });

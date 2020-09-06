@@ -1,8 +1,16 @@
 import { gql } from 'apollo-server';
 
 const typeDefs = gql`
+  enum MongoDBConnectionStatus {
+    CONNECTING
+    FAILED_TO_CONNECT
+    CONNECTED
+    DISCONNECTED
+  }
+
   type ServerStatus {
     isServerAvailable: Boolean
+    mongoDBConnectionStatus: MongoDBConnectionStatus
   }
 
   type Query {

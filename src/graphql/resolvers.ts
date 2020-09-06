@@ -2,13 +2,21 @@ import {
   create,
   ProductType,
 } from '../database/mongo/dataApi/productEmailSubscription';
+import {
+  getCurrentConnectionStatus,
+  MongoDBConnectionStatus,
+} from '../database/mongo/init';
 import { IResolvers } from 'graphql-tools';
 
 const resolvers: IResolvers = {
   Query: {
-    serverStatus: (): { isServerAvailable: boolean } => {
+    serverStatus: (): {
+      isServerAvailable: boolean;
+      mongoDBConnectionStatus: MongoDBConnectionStatus;
+    } => {
       return {
         isServerAvailable: true,
+        mongoDBConnectionStatus: getCurrentConnectionStatus(),
       };
     },
   },

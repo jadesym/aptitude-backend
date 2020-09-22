@@ -46,3 +46,13 @@ export function getEnv(): string {
   }
   return process.env.NODE_ENV;
 }
+
+export function getServiceVersion(): string {
+  const serviceVersion = process.env.npm_package_version;
+
+  if (serviceVersion === undefined) {
+    throw new Error('ServiceVersion from package.json must be non-empty.');
+  }
+
+  return serviceVersion;
+}

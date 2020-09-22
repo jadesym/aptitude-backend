@@ -19,7 +19,11 @@ test('Server Status', async () => {
   const {
     data: {
       data: {
-        serverStatus: { isServerAvailable, mongoDBConnectionStatus },
+        serverStatus: {
+          isServerAvailable,
+          mongoDBConnectionStatus,
+          apiServerVersion,
+        },
       },
     },
     status,
@@ -42,4 +46,5 @@ test('Server Status', async () => {
   server connects to the MongoDB instance.
    */
   expect(mongoDBConnectionStatus).not.toBeNull();
+  expect(apiServerVersion).not.toBeNull();
 });

@@ -6,6 +6,7 @@ import {
   getCurrentConnectionStatus,
   MongoDBConnectionStatus,
 } from '../database/mongo/init';
+import { getServiceVersion } from '../env';
 import { IResolvers } from 'graphql-tools';
 
 const resolvers: IResolvers = {
@@ -13,10 +14,12 @@ const resolvers: IResolvers = {
     serverStatus: (): {
       isServerAvailable: boolean;
       mongoDBConnectionStatus: MongoDBConnectionStatus;
+      apiServerVersion: string;
     } => {
       return {
         isServerAvailable: true,
         mongoDBConnectionStatus: getCurrentConnectionStatus(),
+        apiServerVersion: getServiceVersion(),
       };
     },
   },

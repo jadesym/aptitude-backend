@@ -1,11 +1,13 @@
 {
+  "name": "backend",
+  "version": "0.1.0",
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc --watch",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint --max-warnings=0 src/ --ext .ts,.tsx",
     "start": "node dist/main.js",
-    "start:dev": "NODE_ENV=development node dist/main.js",
+    "start:dev": "NODE_ENV=development npm run start",
     "test:unit": "jest ./unit --config jestconfig.json --silent",
     "test:e2e": "jest ./e2e --config jestconfig.json --silent"
   },

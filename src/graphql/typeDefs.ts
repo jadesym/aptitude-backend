@@ -11,6 +11,7 @@ const typeDefs = gql`
   type ServerStatus {
     isServerAvailable: Boolean
     mongoDBConnectionStatus: MongoDBConnectionStatus
+    apiServerVersion: String
   }
 
   type Query {

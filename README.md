@@ -1,5 +1,10 @@
 # Docker Commands
 
+# Setup
+
+## Configuring git hooks path to the .githooks directory
+git config core.hooksPath .githooks/
+
 # Development Workflow
 
 ## Build the service in watch mode

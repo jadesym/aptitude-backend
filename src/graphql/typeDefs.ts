@@ -22,13 +22,15 @@ const typeDefs = gql`
     PRODUCT_LAUNCH
   }
 
-  input SubcribeToProductEmailInput {
+  input CreateProductEmailSubscriptionInput {
     email: String!
     productType: ProductType!
   }
 
   type Mutation {
-    subscribeToProductEmail(input: SubcribeToProductEmailInput!): String!
+    createProductEmailSubscription(
+      input: CreateProductEmailSubscriptionInput!
+    ): String!
   }
 
   schema {

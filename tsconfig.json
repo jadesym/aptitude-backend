@@ -10,6 +10,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "outDir": "dist",
+    // Skipping lib check since some libraries (lodash) don't compile properly
+    "skipLibCheck": true,
     "strict": true,
     "sourceMap": true,
     "target": "es5",

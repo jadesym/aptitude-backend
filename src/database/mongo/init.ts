@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { getEnv, getMongoDBConnectionString } from '../../env';
 import { Mongoose } from 'mongoose';
+import logger from '../../logger/logger';
 
 mongoose.Promise = global.Promise;
 
@@ -38,26 +39,26 @@ export async function disconnectFromDatabase(): Promise<void> {
 }
 
 mongooseConnection.on('connecting', () => {
-  console.log(`Connecting to MongoDB in env: ${getEnv()}`);
+  logger.info(`Connecting to MongoDB in env: ${getEnv()}`);
   currentMongoDBConnectionStatus = MongoDBConnectionStatus.CONNECTING;
 });
 ['connected', 'reconnected'].forEach((eventName) => {
   mongooseConnection.on(eventName, () => {
-    console.log(`Successfully ${eventName} to MongoDB`);
+    logger.info(`Successfully ${eventName} to MongoDB`);
     currentMongoDBConnectionStatus = MongoDBConnectionStatus.CONNECTED;
   });
 });
 ['error', 'reconnectFailed'].forEach((eventName) => {
   mongooseConnection.on(eventName, () => {
-    console.log(`Failed to connect to MongoDB during event ${eventName}`);
+    logger.error(`Failed to connect to MongoDB during event ${eventName}`);
     currentMongoDBConnectionStatus = MongoDBConnectionStatus.FAILED_TO_CONNECT;
   });
 });
 mongooseConnection.on('disconnecting', () => {
-  console.log(`Disconnecting from MongoDB in env: ${getEnv()}`);
+  logger.error(`Disconnecting from MongoDB in env: ${getEnv()}`);
 });
 mongooseConnection.on('disconnected', () => {
-  console.log(`Successfully disconnected to MongoDB`);
+  logger.error(`Successfully disconnected to MongoDB`);
   currentMongoDBConnectionStatus = MongoDBConnectionStatus.DISCONNECTED;
 });
 

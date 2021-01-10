@@ -1,6 +1,7 @@
 import { getPort } from './env';
 import { connectToDatabase } from './database/mongo/init';
 import server from './graphql/server';
+import logger from './logger/logger';
 
 // Initialize connection to database
 connectToDatabase();
@@ -12,5 +13,5 @@ server
     port: getPort(),
   })
   .then(({ url }) => {
-    console.log(`Server ready at ${url}`);
+    logger.info(`Server ready at ${url}`);
   });
